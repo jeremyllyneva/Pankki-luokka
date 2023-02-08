@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Pankki-luokka</title>
+    </head>
+
+    <body>
+
+        <p id="tiedot"></p>
+        <p id="historia"></p>
+        <p id="eiSaldoa"></p>
+
+        <script>
+
+            class Pankki {
+                constructor(tilinumero, saldo, historia) {
+                    this.tilinumero = "FI0580001470824379";
+                    this.saldo = 0;
+                    this.historiaNosto = [];
+                    this.historiaTalletus = [];
+                }
+
+                // Luodaan "talleta"-metodi, joka tallettaa parametrina annetun summan pankkitilille ja lisää tapahtuman historiaan.
+                talleta(x) {
+                    this.saldo = this.saldo + x;
+                    this.historiaTalletus.push(x);
+                }
+
+                // Luodaan "nosta"-metodi, joka nostaa parametrina annetun summan pankkitililtä ja lisää tapahtuman historiaan.
+                // Metodissa käytetään if...else ehtolausetta siihen, että tililtä ei voi nostaa rahaa, jos sitä ei ole tarpeeksi.
+                nosta(x) {
+                    if(this.saldo >= x) {
+                        this.saldo = this.saldo - x;
+                        this.historiaNosto.push(x);
+                    }else {
+                        document.getElementById("eiSaldoa").innerHTML = "Tilillä ei ole tarpeeksi rahaa";
+                    }
+                }
+
+                // Luodaan "näytäTiedot"-metodi, joka tulostaa pankkitilin tiedot näytölle.
+                näytäTiedot() {
+                    document.getElementById("tiedot").innerHTML = "Pankkitilin tilinumero: " +
+                    this.tilinumero + "<br> Pankkitilin saldo: " +
+                    this.saldo + "<br> Pankkitilin historia: " +
+                    "<br>" + this.historiaTalletus +
+                    "<br>" + this.historiaNosto;
+                }
+
+                // Luodaan "näytäHistoria"-metodi, joka tulostaa pankin historiatiedot näytölle.
+                näytäHistoria() {
+                    document.getElementById("historia").innerHTML = new Date() +
+                    "<br> Talletus: " + this.historiaTalletus +
+                    "<br> Nosto: " + this.historiaNosto +
+                    "<br> Saldo ennen tapahtumaa: " + 0;
+                }
+
+            }
+
+            let pankki = new Pankki();
+
+        </script>
+
+        <!-- Luodaan neljä nappia. Talletus ja Nosto-nappi, johon määritetään summat sekä Näytä tiedot ja Historia napit, jotka tulostavat tiedot näytölle -->
+        <button onclick="pankki.talleta(50)">Talleta</button>
+        <button onclick="pankki.nosta(20)">Nosta</button>
+        <button onclick="pankki.näytäTiedot()">Näytä tiedot</button>
+        <button onclick="pankki.näytäHistoria()">Historia</button>
+
+    </body>
+</html>
