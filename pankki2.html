@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Pankki-luokka</title>
+    </head>
+
+    <body>
+
+        <p id="tiedot"></p>
+        <p id="historia"></p>
+        <p id="eiSaldoa"></p>
+
+        <script>
+
+            class Pankki {
+                constructor(tilinumero, saldo, historiaTalletus, historiaNosto) {
+                    this.tilinumero = "FI0580001470824379";
+                    this.saldo = 0;
+                    this.historiaTalletus = [];
+                    this.historiaNosto = [];
+                }
+
+                talleta(x) {
+                    this.saldo = this.saldo + x;
+                    this.historiaTalletus.push(x+"€");
+                }
+
+                // Tässä metodissa käyttäjä nostaa parametrina annetun summan pankkitililtä.
+                // Käyttäjältä kysytään tilinumeroa, ja mikäli se on oikein, käyttäjän nosto onnistuu.
+                // Mikäli tilinumero ei ole oikein, käyttäjälle palautetaan teksti "Väärä tilinumero, tapahtuma hylätty!".
+                // Metodi myös tarkastaa, onko tilillä tarpeeksi rahaa nostamiseen, mikäli rahaa ei ole tarpeeksi, käyttäjälle annetaan virheviesti.
+                nosta(x) {
+                    let tilinumero = prompt("Anna tilinumero: ");
+                    if(tilinumero == "FI0580001470824379" && this.saldo >= x) {
+                        this.saldo = this.saldo - x;
+                        this.historiaNosto.push(x+"€");
+                    } else if(tilinumero != "FI0580001470824379") {
+                        alert("Väärä tilinumero, tapahtuma hylätty!")
+                    } else {
+                        document.getElementById("eiSaldoa").innerHTML = "Tilillä ei ole tarpeeksi rahaa";
+                    }
+                }
+
+                näytäTiedot() {
+                    document.getElementById("tiedot").innerHTML = "Pankkitilin tilinumero: " +
+                    this.tilinumero + "<br> Pankkitilin saldo: " +
+                    this.saldo+"€" + "<br> Pankkitilin historia: " +
+                    "<br>" + this.historiaTalletus +
+                    "<br>" + this.historiaNosto;
+                }
+
+                näytäHistoria() {
+                    document.getElementById("historia").innerHTML = new Date() +
+                    "<br> Talletus: " + this.historiaTalletus +
+                    "<br> Nosto: " + this.historiaNosto +
+                    "<br> Saldo ennen tapahtumaa: " + 0;
+                }
+            }
+
+            let pankki = new Pankki();
+
+        </script>
+
+
+        <button onclick="pankki.talleta(50)">Talleta</button>
+        <button onclick="pankki.nosta(20)">Nosta</button>
+        <button onclick="pankki.näytäTiedot()">Näytä tiedot</button>
+        <button onclick="pankki.näytäHistoria()">Historia</button>
+
+    </body>
+</html>
